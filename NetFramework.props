@@ -1,0 +1,79 @@
+<Project ToolsVersion="14.0">
+
+    <PropertyGroup>
+        <_InternalFrameworkVersion>$(TargetFrameworkVersion.Substring(1))</_InternalFrameworkVersion>
+        <_InternalFrameworkVersionArray>$(TargetFrameworkVersion.Substring(1).Split('.'))</_InternalFrameworkVersionArray>
+        <TargetFrameworkMajorVersion>$(_InternalFrameworkVersionArray[0])</TargetFrameworkMajorVersion>
+        <TargetFrameworkMinorVersion Condition=" '$(_InternalFrameworkVersion.Length)' &gt;= '2' ">$(_InternalFrameworkVersionArray[1])</TargetFrameworkMinorVersion>
+        <TargetFrameworkBuildVersion Condition=" '$(_InternalFrameworkVersion.Length)' == '3' ">$(_InternalFrameworkVersionArray[2])</TargetFrameworkBuildVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <DefineConstants>$(DefineConstants);NET$(TargetFrameworkMajorVersion)0</DefineConstants>
+        <DefineConstants Condition=" '$(TargetFrameworkMinorVersion)' != '' ">$(DefineConstants);NET$(TargetFrameworkMajorVersion)$(TargetFrameworkMinorVersion)</DefineConstants>
+        <DefineConstants Condition=" '$(TargetFrameworkMinorVersion)' != '' AND '$(TargetFrameworkBuildVersion)' != '' ">$(DefineConstants);NET$(TargetFrameworkMajorVersion)$(TargetFrameworkMinorVersion)$(TargetFrameworkBuildVersion)</DefineConstants>
+
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 400 ">$(DefineConstants);NETSTANDARD1_0</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 450 ">$(DefineConstants);NETSTANDARD1_1</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 451 ">$(DefineConstants);NETSTANDARD1_2</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 460 ">$(DefineConstants);NETSTANDARD1_3</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 461 ">$(DefineConstants);NETSTANDARD1_4</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 462 ">$(DefineConstants);NETSTANDARD1_5</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 463 ">$(DefineConstants);NETSTANDARD1_6</DefineConstants>
+        
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 461 ">$(DefineConstants);NETSTANDARD2_0</DefineConstants>
+
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 200 ">$(DefineConstants);HAS_CONSOLE;HAS_GENERIC</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 300 ">$(DefineConstants);</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 350 ">$(DefineConstants);HAS_LINQ;HAS_DYNAMIC</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 400 ">$(DefineConstants);HAS_CONTRACTS;HAS_TASKS</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 450 ">$(DefineConstants)</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 451 ">$(DefineConstants)</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 452 ">$(DefineConstants)</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 460 ">$(DefineConstants);HAS_HTTP2_SUPPORT;HAS_ASYNC</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 461 ">$(DefineConstants)</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 462 ">$(DefineConstants);HAS_EXCEPTION_FILTER</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 463 ">$(DefineConstants)</DefineConstants>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' ">
+        <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wpa81+wp8;netstandard1.1</PackageTargetFallback>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'net451' ">
+        <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wpa81+wp8;netstandard1.2</PackageTargetFallback>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'net452' ">
+        <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wpa81+wp8;netstandard1.2</PackageTargetFallback>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'net46' ">
+        <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wpa81+wp8;netstandard1.3</PackageTargetFallback>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
+        <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wpa81+wp8;netstandard1.4</PackageTargetFallback>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'net462' ">
+        <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wpa81+wp8;netstandard1.5</PackageTargetFallback>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'net463' ">
+        <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wpa81+wp8;netstandard1.5</PackageTargetFallback>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
+    </PropertyGroup>
+
+    <Target Name="_Check" BeforeTargets="Build">
+        <Message Importance="high" Text="_InternalFrameworkVersion = $(_InternalFrameworkVersion)" />
+        <Message Importance="high" Text="TargetFrameworkMajorVersion = $(TargetFrameworkMajorVersion)" />
+        <Message Importance="high" Text="TargetFrameworkMinorVersion = $(TargetFrameworkMinorVersion)" />
+        <Message Importance="high" Text="TargetFrameworkBuildVersion = $(TargetFrameworkBuildVersion)" />
+        <Message Importance="high" Text="DefineConstants = $(DefineConstants)" />
+    </Target>
+    
+</Project>

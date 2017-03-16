@@ -1,0 +1,10 @@
+<Project ToolsVersion="14.0">
+
+    <Import Condition=" '$(TargetFrameworkIdentifier)' == '.NetFramework' " Project="NetFramework.props" />
+    <Import Condition=" '$(TargetFrameworkIdentifier)' == '.NetStandard' " Project="NetStandard.props" />
+    <Import Condition=" '$(TargetFrameworkIdentifier)' == '.NetCoreApp' " Project="NetCoreApp.props" />
+    <!--
+    <Import Condition=" '$(TargetFrameworkIdentifier)' == '.NetPortable' " Project="NetPortable.props" />
+    -->
+
+</Project>

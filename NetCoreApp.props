@@ -1,0 +1,33 @@
+<Project ToolsVersion="14.0">
+
+    <PropertyGroup>
+        <_InternalFrameworkVersion>$(TargetFrameworkVersion.Substring(1))</_InternalFrameworkVersion>
+        <TargetFrameworkMajorVersion>$(_InternalFrameworkVersion[0])</TargetFrameworkMajorVersion>
+        <TargetFrameworkMinorVersion Condition=" '$(_InternalFrameworkVersion.Length)' &gt;= '2' ">$(_InternalFrameworkVersion[1])</TargetFrameworkMinorVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <DefineConstants>$(DefineConstants);NETCORE$(TargetFrameworkMajorVersion)_$(TargetFrameworkMinorVersion)</DefineConstants>
+
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 10 ">$(DefineConstants);NETSTANDARD1_6</DefineConstants>
+
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 10 ">$(DefineConstants);HAS_GENERIC;HAS_LINQ;HAS_DYNAMIC;HAS_TASKS;HAS_CONSOLE;HAS_ASYNC;HAS_ISOLATED_STORAGE;HAS_EXCEPTION_FILTER</DefineConstants>
+        <DefineConstants Condition=" $(_InternalFrameworkVersion) &gt;= 11 ">$(DefineConstants);</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">
+        <PackageTargetFallback>$(PackageTargetFallback);dnxcore50;dotnet5.6;portable-net45+win8</PackageTargetFallback>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
+        <PackageTargetFallback>$(PackageTargetFallback);dnxcore50;dotnet5.6;portable-net45+win8</PackageTargetFallback>
+    </PropertyGroup>
+
+    <Target Name="_Check" BeforeTargets="Build">
+        <Message Importance="high" Text="_InternalFrameworkVersion = $(_InternalFrameworkVersion)" />
+        <Message Importance="high" Text="TargetFrameworkMajorVersion = $(TargetFrameworkMajorVersion)" />
+        <Message Importance="high" Text="TargetFrameworkMinorVersion = $(TargetFrameworkMinorVersion)" />
+        <Message Importance="high" Text="DefineConstants = $(DefineConstants)" />
+    </Target>
+
+</Project>
